@@ -1,0 +1,31 @@
+
+%h2 Going on right now
+
+.navbar
+  .navbar-inner
+    %form.navbar-search.pull-left
+      %input.search-query.span4{:type=>'text', :placeholder=>'Search...'}
+
+    .btn-group.pull-left
+      %button.btn Going
+      %button.btn Looking
+
+    .pagination.pagination-right.pull-right
+      %ul
+        %li.disabled{:id=>'previous'}
+          %a{:href => '#'} «
+        - (1..10).each do |c|
+          %li
+            %a{:href => '#'}
+              = c
+        %li{:id=>'next'}
+          %a{:href=>'#'}»
+
+%table.table.table-bordered.table-hover
+  %tbody
+    - @routes.each do |route|
+      %tr
+        %td.span11
+          = route.position
+        %td.span1
+          %input.action_btn.btn{:type=>'button', :value=>'Go'}

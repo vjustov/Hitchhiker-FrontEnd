@@ -112,6 +112,11 @@ GEM
       haml (>= 3.1, < 4.1)
       railties (>= 3.1, < 4.1)
     hashie (2.0.5)
+    her (0.6.7)
+      activemodel (>= 3.0.0)
+      activesupport (>= 3.0.0)
+      faraday (~> 0.8)
+      multi_json (~> 1.7)
     hike (1.2.3)
     hpricot (0.8.6)
     html2haml (1.0.1)
@@ -273,6 +278,7 @@ DEPENDENCIES
   guard-rails
   guard-rspec
   haml-rails
+  her
   html2haml
   hub
   jquery-rails
