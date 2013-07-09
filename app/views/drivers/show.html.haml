@@ -1,0 +1,56 @@
+%h1 New Driver in town
+%form.form-horizontal{:action => 'create', :method=>'post'}
+  %fieldset
+    %legend Personal information
+    #photo-driver.control-group.span4
+      %a.thumbnail{:href=>'#'}
+        %img{:src => '', :alt=>''}
+    .span4
+      .control-group
+        %label.control-label{:for => 'name'} Name
+        .controls
+          %input#name.input-xlarge{:name => 'name', :placeholder => 'name', :type => 'text'}
+      .control-group
+        %label.control-label{:for => 'Age'} Age
+        .controls
+          %input#age.input-xlarge{:name => 'age', :placeholder => 'age', :type => 'text'}
+
+%form.form-horizontal{:action => 'create', :method=>'post', :controller => 'vehicles'}
+  %fieldset
+    %legend Vehicle information
+    .span4
+      .control-group
+        %label.control-label{:for => 'selectYear'} Year
+        .controls
+          %select#selectYear.input-xlarge{:name => 'select_year'}
+            - (1950..Time.now.year + 1).each do |y|
+              %option
+                = y
+      .control-group
+        %label.control-label{:for => 'selectBrand'} Brand
+        .controls
+          %select#selectBrand.input-xlarge{:name => 'select_brand'}
+            - (1950..Time.now.year + 1).each do |y|
+              %option
+                = y
+    .span4
+      .control-group
+        %label.control-label{:for => 'selectModel'} Model
+        .controls
+          %select#selectModel.input-xlarge{:name => 'select_model'}
+            - (1950..Time.now.year + 1).each do |y|
+              %option
+                = y
+      .control-group
+        %label.control-label{:for => 'sits'} Sits
+        .controls
+          %select#sits.input-xlarge{:name => 'sits'}
+            - (1..20).each do |s|
+              %option
+                = s
+    .span3
+      .control-group
+        .controls.checkbox-controls
+          %input#checkbox-hasTrunk.checkbox{:name => 'has_trunk', :type => 'checkbox'}
+            Has Trunk
+%button#save.btn.btn-primary.pull-right{:name => 'save'}Create Driver
