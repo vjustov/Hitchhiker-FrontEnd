@@ -8,6 +8,7 @@
 # Environment variables (ENV['...']) are set in the file config/application.yml.
 # See http://railsapps.github.io/rails-environment-variables.html
 puts 'ROLES'
+
 YAML.load(ENV['ROLES']).each do |role|
   Role.mongo_session['roles'].insert({ :name => role })
   puts 'role: ' << role

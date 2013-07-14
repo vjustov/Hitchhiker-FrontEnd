@@ -46,7 +46,8 @@ The application is configured to send email using a Gmail account.
 
 h2. Getting Started
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+In order to use this app in sandbox you must first add the application.yaml file from the example in /config
+and then change the api port in /config/initializers/her.rb 
 
 h2. Documentation and Support
 

@@ -1,4 +1,6 @@
 FinalProject::Application.routes.draw do
+  devise_for :users
+
   get "drivers/new"
 
   get "drivers/create"
@@ -20,4 +22,6 @@ FinalProject::Application.routes.draw do
   match '/signin' => 'sessions#new', :as => :signin
   match '/signout' => 'sessions#destroy', :as => :signout
   match '/auth/failure' => 'sessions#failure'
+
+  devise_for :users
 end

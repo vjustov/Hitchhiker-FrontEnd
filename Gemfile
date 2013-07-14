@@ -13,9 +13,11 @@ gem 'figaro'
 gem 'her'
 gem 'haml-rails'
 gem 'mongoid'
+gem 'devise'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'rolify'
+gem 'certified'
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_19, :rbx]

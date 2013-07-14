@@ -21,6 +21,11 @@
             .span12
               = render 'layouts/messages'
               = yield
+            %div{:id => "map", :class => "span12", :style => "height:300px;"}
           %footer
+      :javascript
+        $(document).ready( function() {
+          initmap();
+        } );
       / ! end of .container
     / ! end of #main
