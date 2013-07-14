@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Country:
+  = @route.country
+%p
+  %b City:
+  = @route.city
+%p
+  %b Available sits:
+  = @route.available_sits
+
+= link_to 'Edit', edit_route_path(@route)
+\|
+= link_to 'Back', routes_path

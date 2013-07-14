@@ -1,4 +1,7 @@
 HitchhikerFrontend::Application.routes.draw do
+  resources :routes
+
+
   authenticated :user do
     root :to => 'home#index'
   end

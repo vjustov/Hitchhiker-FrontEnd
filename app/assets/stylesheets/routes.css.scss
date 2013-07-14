@@ -1,0 +1,28 @@
+// Place all the styles related to the Routes controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+@media all and (max-width: 980px) {
+  .pagination ul > li {
+    display: none;
+  }
+  .pagination ul > li:first-child{
+    display: inline;
+  }
+
+  .pagination ul > li:last-child{
+    display: inline;
+  }
+}
+
+.table-hover{
+  cursor: pointer;
+}
+
+.navbar-fixed-top{
+  margin-bottom: 0px;
+}
+
+.pagination {
+  margin: 0;
+  margin-top: 5px;
+}
