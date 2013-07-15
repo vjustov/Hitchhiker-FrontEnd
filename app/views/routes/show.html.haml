@@ -1,14 +1,19 @@
 %p#notice= notice
 
 %p
-  %b Country:
-  = @route.country
+  %b From:
+  = @route.from
 %p
-  %b City:
-  = @route.city
+  %b To:
+  = @route.to
+  
 %p
   %b Available sits:
   = @route.available_sits
+  
+%p
+  %b departure:
+  = @route.schedule.departure
 
 = link_to 'Edit', edit_route_path(@route)
 \|

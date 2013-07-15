@@ -2,8 +2,15 @@ class Route
   include Mongoid::Document
   include Her::Model
 
+ # embeds_one :schedule
 end
 
+class Schedule
+  include Mongoid::Document
+  include Her::Model
+  
+  #embedded_in :route
+end
 
   #include Her::Model
   #attributes:id,
