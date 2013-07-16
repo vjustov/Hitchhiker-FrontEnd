@@ -15,5 +15,28 @@
   .field
     = f.label :available_sits
     = f.text_field :available_sits
+
+    .well.well-small
+      %h5 Conditions
+      
+    =form_for :schedule do |a|
+      .field
+        = a.label :departure
+        = a.text_field :departure
+      .field
+        = a.label :arrival
+        = a.text_field :arrival
+      .field
+        = a.label :date
+        = a.text_field :date
+        
+    .field
+      = f.label :vehicle
+      = render partial: "user_vehicles_listing"     
+        
+      
+         
+      
+   
   .actions
     = f.submit 'Save'

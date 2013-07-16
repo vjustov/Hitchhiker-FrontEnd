@@ -2,16 +2,29 @@ class Route
   include Mongoid::Document
   include Her::Model
 
- # embeds_one :schedule
+  has_one :schedule
+  has_one :vehicle
 end
 
 class Schedule
   include Mongoid::Document
   include Her::Model
   
-  #embedded_in :route
 end
 
+
+class Vehicle
+  include Mongoid::Document
+  include Her::Model
+  
+end
+
+class Hitchhiker
+  include Mongoid::Document
+  include Her::Model
+  
+  has_many :vehicles
+end
   #include Her::Model
   #attributes:id,
   #:active, 
