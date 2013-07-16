@@ -2,6 +2,7 @@ var map;
 var ajaxRequest;
 var plotlist;
 var plotlayers=[];
+var routePoints = [];
 
 function initmap() {
 	// set up the map
@@ -27,4 +28,16 @@ function initmap() {
 	var point6 = new L.LatLng(18.462508,-69.938601);
 	var latlngs = [point1, point2, point3,point4,point5,point6];
 	L.polyline(latlngs, {color: 'red'}).addTo(map)
+}
+
+var popup = L.popup();
+
+function onMapClick(e) {
+    routePoints.push(e.latlng)
+
+}
+
+function onMapLeftClick(e) {
+    L.polyline(routePoints, {color: 'blue'}).addTo(map);
+    routePoints.length = 0;
 }

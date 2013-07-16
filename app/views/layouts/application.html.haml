@@ -25,7 +25,14 @@
           %footer
       :javascript
         $(document).ready( function() {
+          L.Icon.Default.imagePath = "#{File.dirname asset_path 'marker-icon-2x.png'}"
           initmap();
+          map.on('click', onMapClick);
+          map.on('contextmenu', onMapLeftClick);
+
+          new L.Control.GeoSearch({
+              provider: new L.GeoSearch.Provider.OpenStreetMap()
+          }).addTo(map);
         } );
       / ! end of .container
     / ! end of #main
