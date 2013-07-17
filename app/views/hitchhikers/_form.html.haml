@@ -1,0 +1,34 @@
+= form_for @hitchhiker do |f|
+  - if @hitchhiker.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@hitchhiker.errors.count, "error")} prohibited this hitchhiker from being saved:"
+      %ul
+        - @hitchhiker.errors.full_messages.each do |msg|
+          %li= msg
+
+  .control-group
+    = f.label :username
+    .controls
+      = f.text_field :username, {:class=> 'ilusiom'}
+  .control-group
+    = f.label :name
+    .controls
+      = f.text_field :name
+  .control-group
+    = f.label :lastname
+    .controls
+      = f.text_field :lastname
+  .control-group
+    = f.label :email
+    .controls
+      = f.text_field :email
+  .control-group
+    .controls.checkbox-controls
+      = f.check_box :hitchhiker
+      Hitchhiker
+
+  -# = f.fields_for :vehicles do |builder|
+  -#  = render 'vehicle_fields', :f => builder
+
+  .actions
+    = f.submit 'Save'
