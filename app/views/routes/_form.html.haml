@@ -13,47 +13,57 @@
          
   .span4.pull-left.well.well-small
     .field
-      = f.label :from
-      = f.text_field :from
+      = f.label :from 
+      = f.text_field :from, :size =>"100%"
     .field
       = f.label :to
-      = f.text_field :to
+      = f.text_field :to, :size =>"100%"
  
   .span4.pull-left.well.well-small
     %h5 Conditions
     
-    =form_for :schedule do |a|
+    =fields_for :schedule do |a|
       .field
-        = a.label :departure
-        = a.text_field :departure
+        = a.label :departure 
+        = a.text_field :departure, :format=>"time", :readonly=>true
       .field
         = a.label :arrival
-        = a.text_field :arrival
+        = a.text_field :arrival, :format=>"time", :readonly=>true
       .field
         = a.label :date
-        = a.text_field :date
-  
+        = a.text_field :date,:format=>"date", :readonly=>true
+ 
   .clearfix 
   .span4.pull-left.well.well-small
     %h5 Vehicle        
     .field
       = f.label :vehicle
       = render partial: "user_vehicles_listing"
-           
+             
     .field
-    = f.label :available_sits
-    = f.text_field :available_sits
-      
-      
+      = f.label :available_sits
+      = f.text_field :available_sits
+        
+        
   .clearfix 
   
-  
-      
-   
   .actions
     = f.submit 'Save'
     
 :javascript
+  
+  $("input[format='time']").timepicker({
+      hourGrid: 4,
+      minuteGrid: 10,
+      timeFormat: 'hh:mm tt'
+  });
+  
+   $("input[format='date']").datepicker({
+      hourGrid: 4,
+      minuteGrid: 10,
+      timeFormat: 'hh:mm tt'
+  });
+  
   
   $('#clear_button').click(function(){
       reset();
@@ -146,7 +156,7 @@
  
   function calcRoute() {
     if (origin == null) {
-      alert("Click on the map to add a start point");
+      //alert("Click on the map to add a start point");
       return;
     }
     
