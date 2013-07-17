@@ -8,16 +8,17 @@
           
   .span7.pull-right.well.well-small
     %div{:id => "map_canvas", :style => "border: 1px solid black; position:absolute; height:400px;position:relative"}
-    %input{:type=>"hidden", :id=>"map_points"}
+    
+    = hidden_field_tag("route_map_points")
     %input{:type=>"button",:id=>"clear_button" , :value=>"Clear"} 
          
   .span4.pull-left.well.well-small
     .field
       = f.label :from 
-      = f.text_field :from, :size =>"100%"
+      = f.text_field :from, :class=>"input-xlarge" ,:readonly=>true
     .field
       = f.label :to
-      = f.text_field :to, :size =>"100%"
+      = f.text_field :to, :class=>"input-xlarge" ,:width =>"100%", :readonly=>true
  
   .span4.pull-left.well.well-small
     %h5 Conditions
@@ -48,7 +49,7 @@
   .clearfix 
   
   .actions
-    = f.submit 'Save'
+    = f.submit 'Save', :class=> "btn btn-primary"
     
 :javascript
   
@@ -110,10 +111,10 @@
       
       function handleNoGeolocation(errorFlag) {
         if (errorFlag == true) {
-          alert("Geolocation service failed.");
+          //alert("Geolocation service failed.");
           //initialLocation = newyork;
         } else {
-          alert("Your browser doesn't support geolocation. We've placed you somewhere near.");
+          //alert("Your browser doesn't support geolocation. We've placed you somewhere near.");
           //initialLocation = siberia;
         }
         map.setCenter(initialLocation);
@@ -180,31 +181,38 @@
     var points_text = "", points_json= "", format = "raw";
     //if (document.getElementById("json").checked) {
      // format = "json";
-      points_json += 'var routeCenter = ' + serializeLatLng(response.routes[0].bounds.getCenter()) + ';\n';
-      points_json += 'var routeSpan = ' + serializeLatLng(response.routes[0].bounds.toSpan()) + ';\n';
-      points_json += 'var routePoints = [\n'
+      points_json += '{';
+      points_json += '\"routeCenter\" : ' + serializeLatLng(response.routes[0].bounds.getCenter()) + ',';
+      points_json += '\"routeSpan\" : ' + serializeLatLng(response.routes[0].bounds.toSpan()) + ',';
+      points_json += '\"routePoints\" : [\n'
       
       points_text += 'var routeCenter = ' + serializeLatLng(response.routes[0].bounds.getCenter()) + ';\n';
       points_text += 'var routeSpan = ' + serializeLatLng(response.routes[0].bounds.toSpan()) + ';\n';
       points_text += 'var routePoints = [\n'
    // }
+     
     document.getElementById("route_from").value = response.routes[0].legs[0].start_address 
     document.getElementById("route_to").value = response.routes[0].legs[0].end_address
     response.routes[0].bounds.getCenter.lng
     var nPoints = response.routes[0].overview_path.length;
     for (var i = 0; i < nPoints; i++) { 
       //if ( format == "json" ) {
-        points_json += '\t' + serializeLatLng(response.routes[0].overview_path[i]) + (i < (nPoints - 1) ? ',\n' : '');
+        points_json += " " + serializeLatLng(response.routes[0].overview_path[i]) + (i < (nPoints - 1) ? ',' : '');
       //} else {
         points_text += response.routes[0].overview_path[i].lat() + ',' + response.routes[0].overview_path[i].lng() + '\n';
       //}
     }
     //if ( format == "json" ) {
-      points_json += '\n];'
+      points_json += ']}'
+      points_json = points_json.replace("latitude","\"latitude\"")
+      points_json = points_json.replace("longitude","\"longitude\"")
+      
     //}
  
-    var map_points=document.getElementById("map_points");
-    map_points.value = points_json;
+    var map_points=document.getElementById("route_map_points");
+    var routeReponse = $.toJSON(response.routes[0]);
+    map_points.value = routeReponse;
+    //map_points.value = points_json;
     clearMarkers();
       directionsDisplay.setDirections(response);
       }

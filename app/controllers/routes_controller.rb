@@ -39,15 +39,23 @@ class RoutesController < ApplicationController
   # POST /routes
   # POST /routes.json
   def create
-    @route = Route.new(params[:route])
-
-    respond_to do |format|
-      if @route.save
-        format.html { redirect_to @route, notice: 'Route was successfully created.' }
-        format.json { render json: @route, status: :created, location: @route }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @route.errors, status: :unprocessable_entity }
+    if user_signed_in?
+      user = Hitchhiker.where(:email => current_user.email)
+      debugger
+      @route = Route.new(params[:route])
+      routeInfo = JSON.parse(params[:route_map_points])
+      @route.route_points = routeInfo['overview_path']
+      @route.hitchhiker_id = user.first()["_id"]
+      
+  
+      respond_to do |format|
+        if @route.save
+          format.html { redirect_to @route, notice: 'Route was successfully created.' }
+          format.json { render json: @route, status: :created, location: @route }
+        else
+          format.html { render action: "new" }
+          format.json { render json: @route.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
