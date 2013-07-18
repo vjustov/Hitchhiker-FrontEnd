@@ -3,6 +3,7 @@ class RoutesController < ApplicationController
   # GET /routes.json
   def index
     @routes = Route.all
+    @hitchhikers = Hitchhiker.all
 
     respond_to do |format|
       format.html # index.html.erb

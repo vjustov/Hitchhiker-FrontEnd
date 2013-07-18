@@ -4,6 +4,7 @@ class Route
 
   has_one :schedule
   has_one :vehicle
+  belongs_to :hitchhiker
 end
 
 class Schedule
@@ -20,9 +21,10 @@ class Vehicle
 end
 
 class Hitchhiker
-  include Mongoid::Document
+  # include Mongoid::Document
   include Her::Model
   
+  has_many :routes
   has_many :vehicles
 end
   #include Her::Model
