@@ -22,6 +22,23 @@ class RoutesController < ApplicationController
     end
   end
 
+  def check_in
+    debugger
+    @route = Route.find(params[:id])
+    @Hitchhiker = Hitchhiker.find(params[:user_id])
+
+    respond_to do |format|
+      if @route.update_attributes(params[:route])
+        format.html { redirect_to @route, notice: 'Check in succesfull, Have a nice ride.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @route.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+
   # GET /routes/new
   # GET /routes/new.json
   def new

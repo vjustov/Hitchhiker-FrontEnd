@@ -20,7 +20,8 @@
 /     %div{:id => "map_canvas", :style => "border: 1px solid black; position:absolute; height:400px;position:relative"}
 /     %input{:type=>"hidden", :id=>"map_points"}
 /     %input{:type=>"button",:id=>"clear_button" , :value=>"Clear"} 
-
+ 
+= link_to "Check In", controller: "routes", action: "check_in", id: @route['_id'],  user_id: @route['hitchhiker_id']
 = link_to 'Edit', edit_route_path(@route)
 \|
 = link_to 'Back', routes_path

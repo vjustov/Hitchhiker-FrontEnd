@@ -7,10 +7,16 @@ HitchhikerFrontend::Application.routes.draw do
   get 'hitchhikers/update_models', :as => 'update_models'
   get 'hitchhikers/update_years', :as => 'update_years'
 
+  # put '/routes/:id/checkin', :to => 'routes#check_in'
   resources :drivers
 
 
-  resources :routes
+  resources :routes do
+    member do
+      put 'check_in'
+    end
+  end
+
 
 
   authenticated :user do
