@@ -32,4 +32,6 @@ HitchhikerFrontend::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
+
+  ENV['API_URL'] = 'http://127.0.0.1:9292/'
 end
