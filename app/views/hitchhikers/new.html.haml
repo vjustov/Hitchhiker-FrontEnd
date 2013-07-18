@@ -1,78 +1,54 @@
 %h2 New user
-%form.form-horizontal{:action => 'create', :method=>'post'}
-
-  %fieldset
-    %legend Personal information
-    #photo-driver.control-group.span4
-      %a.thumbnail{:href=>'#'}
-        %img{:src => '', :alt=>''}
-    .span4.offset1
-      .control-group
-        %label.control-label{:for => 'username'} Username
-        .controls
-          %input.input-xlarge{:name => 'username', :placeholder => 'cool username here', :type => 'text'}
-      .control-group
-        %label.control-label{:for => 'name'} Name
-        .controls
-          %input.input-xlarge{:name => 'name', :placeholder => 'name', :type => 'text'}
-      .control-group
-        %label.control-label{:for => 'lastname'} Last name
-        .controls
-          %input.input-xlarge{:name => 'lastname', :placeholder => 'last name', :type => 'text'}
-    .span4
-      .control-group
-        %label.control-label{:for => 'email'} Email
-        .controls
-          %input.input-xlarge{:name => 'email', :placeholder => 'email', :type => 'email'}
-      .control-group
-        %label.control-label{:for => 'password'} Password
-        .controls
-          %input.input-xlarge{:name => 'password', :placeholder => 'password', :type => 'password'}
-        .controls.checkbox-controls
-          %input.checkbox{:name => 'has_trunk', :type => 'checkbox'}
-            Hitchhiker
-    -#.span4
-    -#  %table.table.table-bordered.table-hover
-    -#    %th Last Routes
-    -#    - 5.times do
-    -#      %tr
-    -#        %td From Miami To Ibiza
-  %fieldset
-    %legend Vehicle information
-    .span4
-      .control-group
-        %label.control-label{:for => 'selectYear'} Year
-        .controls
-          %select#selectYear.input-xlarge{:name => 'select_year'}
-            - (1950..Time.now.year + 1).each do |y|
-              %option
-                = y
-      .control-group
-        %label.control-label{:for => 'selectBrand'} Brand
-        .controls
-          = select('brand', 'name', options_for_select(@brands), {:prompt => 'Select Brand'})
-    .span4
-      .control-group
-        %label.control-label{:for => 'selectModel'} Model
-        .controls
-          = select('model', 'name', options_for_select(@models), {:prompt => 'Select Model'})
-      .control-group
-        %label.control-label{:for => 'sits'} Sits
-        .controls
-          = collection_select('model', 'year', @years, :year, :id, {:prompt   => 'Select a Year'}, {:id => 'model_year'})
-    .span3
-      .control-group
-        .controls.checkbox-controls
-          %input#checkbox-hasTrunk.checkbox{:name => 'has_trunk', :type => 'checkbox'}
-            Has Trunk
-
-
-    -# = select('model', 'year', options_for_select(@years), {:prompt => 'Select Year', :id=> 'year_select'})
-
-    -# = select("device", "name", options_for_select(@devices_for_dropdown), {:prompt => 'Select Device'})
-    -# = collection_select(nil, :make_id,  @brands, {:prompt   => "Select a Brand"}, {:id => 'make_select'})
-%button#save.btn.btn-primary.pull-right{:name => 'save'}Create Driver
-
+= form_tag('/hitchhikers/create') do
+ = field_set_tag do
+  .span4
+   .control-group
+    = label_tag :name, 'Name:'
+    .controls
+     = text_field_tag :name,nil, class: 'input-xlarge'
+   .control-group
+    = label_tag :name, 'Lastname:'
+    .controls
+     = text_field_tag :lastname,nil, class: 'input-xlarge'
+   .control-group
+    = label_tag :username, 'Username:'
+    .controls
+     = text_field_tag :username,nil, class: 'input-xlarge'
+  .span4
+   .control-group
+    = label_tag :name, 'Email:'
+    .controls
+     = text_field_tag :email,nil, class: 'input-xlarge'
+   .control-group
+    = label_tag :password, 'Password:'
+    .controls
+     = text_field_tag :password,nil, class: 'input-xlarge'
+   .control-group
+    = label_tag :hitchhiker, 'Hitchhiker:'
+    = check_box_tag :hitchhiker
+ = field_set_tag do
+  .span4
+   .control-group
+    = label_tag :brand, 'Brand:'
+    .controls
+     = select('brand', 'name', options_for_select(@brands), {:prompt => 'Select Brand'},{:name=> 'brand'})
+   .control-group
+    = label_tag :model, 'Model:'
+    .controls
+     = select('model', 'name', options_for_select(@models), {:prompt => 'Select Model'}, {:name=> 'model'})
+  .span4
+   .control-group
+    = label_tag :year, 'Year:'
+    .controls
+     = collection_select(nil, nil, @years, :year, :id, {:prompt   => 'Select a Year'}, {:name=> 'year', :id => 'model_year'})
+   .control-group
+    = label_tag :sits, 'Sits:'
+    .controls
+     %select#sits{:name => 'sits'}
+      - (1..50).each do |y|
+       %option
+        = y
+ = submit_tag 'Create hitchhiker', class: 'pull-right'
 
 :javascript
   $(document).ready(function() {
@@ -101,6 +77,34 @@
         dataType: "script"
       });
      });
+
+     $('#remove_row').click(function(){
+     alert('asas');
+      $.ajax({
+        url: "#{remove_vehicles_path}",
+          data: {
+            id : $('#model_year').val()
+        },
+        dataType: "script"
+      });
+     });
+
+      $('#add_vehicle').click(function() {
+          $.ajax({
+             url: "#{add_vehicles_path}",
+               data: {
+                 brand : $('#brand_name').val(),
+                 model : $('#model_name').val(),
+                 year : $('#model_year option:selected').text(),
+                 id : $('#model_year').val(),
+                 sits  : $('#sits').val(),
+                 has_trunk: $('#checkbox-hasTrunk').val(),
+                 id: $('#model_year').val()
+             },
+             dataType: "script"
+           });
+          });
+      return false;
   });
 
 
