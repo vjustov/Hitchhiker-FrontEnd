@@ -9,26 +9,20 @@
       %button.btn Going
       %button.btn Looking
 
-    .pagination.pagination-right.pull-right
-      %ul
-        %li.disabled{:id=>'previous'}
-          %a{:href => '#'} «
-        - (1..10).each do |c|
-          %li
-            %a{:href => '#'}
-              = c
-        %li{:id=>'next'}
-          %a{:href=>'#'}»
+    = will_paginate @routes, :class => 'pagination pagination-right pull-right'
 
 %table.table.table-bordered.table-hover
   %tbody
     - @routes.each do |route|
       %tr
         %td.span11
-          Ciudad
-          = route.country
+          From:
+          = route.from
+          To:
+          = route.to
+          |
           Available sits
           = route.available_sits
         %td.span1
-          = link_to 'Show', route,
+          = link_to 'Check in', route,
           {:class => 'action_btn btn'}
