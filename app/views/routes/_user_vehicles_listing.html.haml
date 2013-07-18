@@ -1,3 +1,0 @@
-%select{:id=>"vehicle_id"}
-  - vehicles_by_user.each do |vehicle|
-    %option{selected: params[:vehicle_id] == "#{vehicle.id}", value:"#{vehicle.id}" }#{vehicle.brand} #{vehicle.model} #{vehicle.year}
