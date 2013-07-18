@@ -19,19 +19,7 @@
     .field
       = f.label :to
       = f.text_field :to, :class=>"input-xlarge" ,:width =>"100%", :readonly=>true
- 
-  .span4.pull-left.well.well-small
-    %h5 Conditions
-    
-    =fields_for :schedule do |a|
-      .field
-        = a.label :departure 
-        = a.text_field :departure, :format=>"time", :readonly=>true
-      .field
-        = a.label :arrival
-        = a.text_field :arrival, :format=>"time", :readonly=>true
-
-  .clearfix 
+  
   .span4.pull-left.well.well-small
     %h5 Vehicle        
     .field
@@ -42,7 +30,19 @@
       = f.label :available_sits
       = f.text_field :available_sits
         
-        
+         
+  .span4.pull-left.well.well-small
+    %h5 Schedule
+    
+    = field_set_tag do
+      .field
+        = label_tag 
+        = text_field_tag 'route_schedule_departure',@route.schedule.departure, format: "time", readonly:"true"
+      .field
+        = label_tag  'arrival'
+        = text_field_tag 'route_schedule_arrival',@route.schedule.departure, format: "time", readonly:"true"
+
+  
   .clearfix 
   
   .actions
@@ -157,7 +157,7 @@
     }
     
     if (destination == null) {
-      alert("Click on the map to add an end point");
+      //alert("Click on the map to add an end point");
       return;
     }
     
