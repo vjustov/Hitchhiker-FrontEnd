@@ -28,4 +28,6 @@ HitchhikerFrontend::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  ENV['API_URL'] = 'http://127.0.0.1:9292/'
 end
