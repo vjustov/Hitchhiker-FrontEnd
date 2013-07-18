@@ -29,6 +29,7 @@ class HitchhikersController < ApplicationController
     @brands = JSON.parse(RestClient.get(ENV['API_URL'] + 'vehicles/brands'))
     @models = []
     @years =[]
+    @vehicles = []
     #@data.each do |d|
 
     #  @brands.merge!d.to_hash
@@ -40,6 +41,25 @@ class HitchhikersController < ApplicationController
     end
   end
 
+  def add_vehicles
+    @vehicles = []
+
+    vehicle = Vehicle.new()
+    vehicle.brand = params[:brand]
+    vehicle.model = params[:model]
+    vehicle.year = params[:year]
+    vehicle.sits = params[:sits]
+    vehicle.has_trunk = (params[:has_trunk] == 'on')
+    @vehicles << vehicle
+    p vehicle
+    p @vehicles
+    #unless params[:brand].nil?
+    #  @models = JSON.parse(RestClient.get(ENV['API_URL'] + "vehicles/#{params[:brand]}/models"))
+    #end
+    respond_to do |format|
+      format.js
+    end
+  end
 
   def update_models
     @models = []
@@ -65,6 +85,16 @@ class HitchhikersController < ApplicationController
   end
 
 
+  def remove_vehicles
+    unless params[:brand].nil?
+      @vehicles.delete_if { |a| a.id == params[:id] }
+    end
+    respond_to do |format|
+      format.js
+    end
+  end
+
+
   # GET /hitchhikers/1/edit
   def edit
     @hitchhiker = Hitchhiker.find(params[:id])
@@ -73,8 +103,10 @@ class HitchhikersController < ApplicationController
   # POST /hitchhikers
   # POST /hitchhikers.json
   def create
-    @hitchhiker = Hitchhiker.new(params[:hitchhiker])
-
+    @hitchhiker = Hitchhiker.new(params)
+    @hitchhiker.vehicles.build(model: params[:model])
+    p @hitchhiker
+    #@hitchhiker.vehicles << @vehicles
     respond_to do |format|
       if @hitchhiker.save
         format.html { redirect_to @hitchhiker, notice: 'Hitchhiker was successfully created.' }
