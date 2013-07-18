@@ -1,3 +1,10 @@
-= content_tag_for(:tr, @vehicle, :class => cycle('odd','even')) do
-  %td= h @vehicle.year
-  %td= link_to 'Remove', object_path(@vehicle), :method => :delete
+
+- @vehicles.each do |vehicle|
+  = content_tag_for(:tr, vehicle, :class => cycle('odd','even')) do
+    %td= vehicle.brand
+    %td= vehicle.model
+    %td= vehicle.year
+    %td= vehicle.sits
+    %td= vehicle.has_trunk
+
+  -# %td= link_to 'Remove', object_path(@vehicle), :method => :delete
