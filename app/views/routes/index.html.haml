@@ -1,4 +1,7 @@
-%h2 Going on right now
+%h2.span4 Going on right now
+%span.pull-right.red 
+  = link_to 'New Route', '/routes/new', {:class => 'action_btn btn'}
+.clearfix
 
 .navbar
   .navbar-inner
@@ -13,15 +16,20 @@
 
 %table.table.table-bordered.table-hover
   %tbody
+    / - unless @routes.empty?
     - @routes.each do |route|
       %tr
-        %td.span11
-          From:
+        %div{:class => "btn-group"}
+          / = link_to 'Show', route.hitchhiker.entries.first,
+          {:class => 'btn-primary span1'}
+        %td.span1
+          / = route.hitchhiker.entries.first.username
+        %td.span9
+          is going from
           = route.from
-          To:
+          to
           = route.to
-          |
-          Available sits
+        %td.span1
           = route.available_sits
         %td.span1
           = link_to 'Check in', route,

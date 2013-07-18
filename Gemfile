@@ -15,11 +15,15 @@ gem 'figaro'
 gem 'haml-rails'
 gem 'mongoid'
 gem 'rolify'
+gem 'will_paginate', '~> 3.0'
+gem 'rest-client'
 group :development do
   gem 'better_errors'
-  gem 'binding_of_caller', :platforms=>[:mri_19, :rbx]
+  gem 'binding_of_caller'#, :platforms=>[:mri_19, :rbx]
   gem 'html2haml'
+  gem 'debugger'
   gem 'quiet_assets'
+  gem 'debugger'
 end
 group :development, :test do
   gem 'rspec-rails'

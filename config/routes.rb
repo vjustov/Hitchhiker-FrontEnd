@@ -11,10 +11,17 @@ HitchhikerFrontend::Application.routes.draw do
   get 'hitchhikers/add_vehicles', :as => 'add_vehicles'
   get 'hitchhikers/remove_vehicles', :as => 'remove_vehicles'
 
+  # put '/routes/:id/checkin', :to => 'routes#check_in'
   resources :drivers
 
 
-  resources :routes
+  resources :routes do
+    member do
+      put 'check_in'
+      get 'check_in'
+    end
+  end
+
 
 
   authenticated :user do

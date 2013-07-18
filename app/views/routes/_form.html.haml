@@ -5,15 +5,217 @@
       %ul
         - @route.errors.full_messages.each do |msg|
           %li= msg
+          
+  .span7.pull-right.well.well-small
+    %div{:id => "map_canvas", :style => "border: 1px solid black; position:absolute; height:400px;position:relative"}
+    
+    = hidden_field_tag("route_map_points")
+    %input{:type=>"button",:id=>"clear_button" , :value=>"Clear"} 
+         
+  .span4.pull-left.well.well-small
+    .field
+      = f.label :from 
+      = f.text_field :from, :class=>"input-xlarge" ,:readonly=>true
+    .field
+      = f.label :to
+      = f.text_field :to, :class=>"input-xlarge" ,:width =>"100%", :readonly=>true
+  
+  .span4.pull-left.well.well-small
+    %h5 Vehicle        
+    .field
+      = f.label :vehicle
+      = render partial: "user_vehicles_listing"
+             
+    .field
+      = f.label :available_sits
+      = f.text_field :available_sits
+        
+         
+  .span4.pull-left.well.well-small
+    %h5 Schedule
+    
+    = field_set_tag do
+      .field
+        = label_tag 
+        = text_field_tag 'route_schedule_departure',@route.schedule.departure, format: "time", readonly:"true"
+      .field
+        = label_tag  'arrival'
+        = text_field_tag 'route_schedule_arrival',@route.schedule.departure, format: "time", readonly:"true"
 
-  .field
-    = f.label :country
-    = f.text_field :country
-  .field
-    = f.label :city
-    = f.text_field :city
-  .field
-    = f.label :available_sits
-    = f.text_field :available_sits
+  
+  .clearfix 
+  
   .actions
-    = f.submit 'Save'
+    = f.submit 'Save', :class=> "btn btn-primary"
+    
+:javascript
+  
+  $("input[format='time']").datetimepicker({
+    timeFormat: "hh:mm tt"
+  });
+  
+  //$("input[format='date']").datepicker({
+  //   hourGrid: 4,
+  //    minuteGrid: 10,
+  //    timeFormat: 'hh:mm tt'
+  // });
+  
+  
+  $('#clear_button').click(function(){
+      reset();
+  });
+  
+  var directionsService = new google.maps.DirectionsService();
+  var map;
+  var origin = null;
+  var destination = null;
+  var waypoints = [];
+  var markers = []; 
+  var browserSupportFlag =  new Boolean();
+  var initialLocation;
+  
+  initialize();
+ 
+  function initialize() {
+    directionsDisplay = new google.maps.DirectionsRenderer({draggable: true});
+    var initialLocation = new google.maps.LatLng(18.488075,-69.931126);
+    var myOptions = {
+      zoom:15,
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      draggableCursor: "pointer",
+      center: initialLocation,
+    }
+    
+    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    directionsDisplay.setMap(map);
+    
+      if(navigator.geolocation) {
+          browserSupportFlag = true;
+          navigator.geolocation.getCurrentPosition(function(position) {
+            initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+            map.setCenter(initialLocation);
+          }, function() {
+            handleNoGeolocation(browserSupportFlag);
+          });
+      }
+      // Browser doesn't support Geolocation
+      else {
+        browserSupportFlag = false;
+        handleNoGeolocation(browserSupportFlag);
+      }
+      
+      function handleNoGeolocation(errorFlag) {
+        if (errorFlag == true) {
+          //alert("Geolocation service failed.");
+          //initialLocation = newyork;
+        } else {
+          //alert("Your browser doesn't support geolocation. We've placed you somewhere near.");
+          //initialLocation = siberia;
+        }
+        map.setCenter(initialLocation);
+      }
+   
+      
+    
+    
+    google.maps.event.addListener(map, 'click', function(event) {
+      if (origin == null) {
+        origin = event.latLng;
+        addMarker(origin);
+      } else if (destination == null) {
+        destination = event.latLng;
+        addMarker(destination);
+      } else {
+        if (waypoints.length < 9) {
+          waypoints.push({ location: destination, stopover: true });
+          destination = event.latLng;
+          addMarker(destination);
+        } else {
+          alert("Maximum number of waypoints reached");
+        }
+      }
+      calcRoute();
+    });
+  }
+ 
+  function addMarker(latlng) {
+    markers.push(new google.maps.Marker({
+      position: latlng, 
+      map: map,
+      icon: "http://maps.google.com/mapfiles/marker" + String.fromCharCode(markers.length + 65) + ".png"
+    }));    
+  }
+ 
+  function serializeLatLng(ll) {
+  return '{latitude: ' + ll.lat() + ', longitude: ' + ll.lng() + '}';
+  }
+ 
+  function calcRoute() {
+    if (origin == null) {
+      //alert("Click on the map to add a start point");
+      return;
+    }
+    
+    if (destination == null) {
+      //alert("Click on the map to add an end point");
+      return;
+    }
+    
+    var mode = google.maps.DirectionsTravelMode.DRIVING;
+ 
+    var request = {
+        origin: origin,
+        destination: destination,
+        waypoints: waypoints,
+        travelMode: mode,
+        optimizeWaypoints: true,
+        avoidHighways: false
+    };
+      directionsService.route(request, function(response, status) {
+      if (status == google.maps.DirectionsStatus.OK) {
+    var points_text = "", points_json= "", format = "raw";
+     
+    document.getElementById("route_from").value = response.routes[0].legs[0].start_address 
+    document.getElementById("route_to").value = response.routes[0].legs[0].end_address
+    response.routes[0].bounds.getCenter.lng
+  
+ 
+    var map_points=document.getElementById("route_map_points");
+    var routeReponse = $.toJSON(response.routes[0]);
+    map_points.value = routeReponse;
+    map_points.value = map_points.value.replace("jb","latitude").replace("kb","longitude");
+    //map_points.value = points_json;
+    clearMarkers();
+      directionsDisplay.setDirections(response);
+      }
+    });
+  }
+ 
+  function clearMarkers() {
+    for (var i = 0; i < markers.length; i++) {
+      markers[i].setMap(null);
+    }
+  }
+  
+  function clearWaypoints() {
+    markers = [];
+    origin = null;
+    destination = null;
+    waypoints = [];
+  }
+  
+  function select_all() {
+  var points_textarea=document.getElementById("points_textarea");
+  points_textarea.focus();
+  points_textarea.select();
+  }
+ 
+  function reset() {
+    clearMarkers();
+    clearWaypoints();
+    directionsDisplay.setMap(null);
+    directionsDisplay.setPanel(null);
+    directionsDisplay = new google.maps.DirectionsRenderer();
+    directionsDisplay.setMap(map);
+    document.getElementById("map_points").value = '';
+  }
