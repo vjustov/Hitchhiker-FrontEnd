@@ -179,39 +179,16 @@
       directionsService.route(request, function(response, status) {
       if (status == google.maps.DirectionsStatus.OK) {
     var points_text = "", points_json= "", format = "raw";
-    //if (document.getElementById("json").checked) {
-     // format = "json";
-      points_json += '{';
-      points_json += '\"routeCenter\" : ' + serializeLatLng(response.routes[0].bounds.getCenter()) + ',';
-      points_json += '\"routeSpan\" : ' + serializeLatLng(response.routes[0].bounds.toSpan()) + ',';
-      points_json += '\"routePoints\" : [\n'
-      
-      points_text += 'var routeCenter = ' + serializeLatLng(response.routes[0].bounds.getCenter()) + ';\n';
-      points_text += 'var routeSpan = ' + serializeLatLng(response.routes[0].bounds.toSpan()) + ';\n';
-      points_text += 'var routePoints = [\n'
-   // }
      
     document.getElementById("route_from").value = response.routes[0].legs[0].start_address 
     document.getElementById("route_to").value = response.routes[0].legs[0].end_address
     response.routes[0].bounds.getCenter.lng
-    var nPoints = response.routes[0].overview_path.length;
-    for (var i = 0; i < nPoints; i++) { 
-      //if ( format == "json" ) {
-        points_json += " " + serializeLatLng(response.routes[0].overview_path[i]) + (i < (nPoints - 1) ? ',' : '');
-      //} else {
-        points_text += response.routes[0].overview_path[i].lat() + ',' + response.routes[0].overview_path[i].lng() + '\n';
-      //}
-    }
-    //if ( format == "json" ) {
-      points_json += ']}'
-      points_json = points_json.replace("latitude","\"latitude\"")
-      points_json = points_json.replace("longitude","\"longitude\"")
-      
-    //}
+  
  
     var map_points=document.getElementById("route_map_points");
     var routeReponse = $.toJSON(response.routes[0]);
     map_points.value = routeReponse;
+    map_points.value = map_points.value.replace("jb","latitude").replace("kb","longitude");
     //map_points.value = points_json;
     clearMarkers();
       directionsDisplay.setDirections(response);

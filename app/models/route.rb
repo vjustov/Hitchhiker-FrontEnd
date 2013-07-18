@@ -10,6 +10,7 @@ class Schedule
   include Mongoid::Document
   include Her::Model
   
+  collection_path "routes/:route_id/schedule"
 end
 
 
@@ -25,16 +26,3 @@ class Hitchhiker
   
   has_many :vehicles
 end
-  #include Her::Model
-  #attributes:id,
-  #:active, 
-  #:available_sits, 
-  #:city,
-  #:country,
-  #:end_point,
-  #:passengers,
-  #:route_link,
-  #:route_points,
-  #:starting_point, 
-  #:user_id,
-  #:vehicle_id

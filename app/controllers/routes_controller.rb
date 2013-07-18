@@ -3,7 +3,7 @@ class RoutesController < ApplicationController
   # GET /routes.json
   def index
     @routes = Route.all
-
+    
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @routes }
@@ -41,20 +41,28 @@ class RoutesController < ApplicationController
   def create
     if user_signed_in?
       user = Hitchhiker.where(:email => current_user.email)
-      debugger
       @route = Route.new(params[:route])
-      routeInfo = JSON.parse(params[:route_map_points])
+      routeInfo = JSON.parse(params[:route_map_points].gsub("jb","latitude").gsub("kb","longitude"))
+      debugger
+      
       @route.route_points = routeInfo['overview_path']
+      @route.starting_point = routeInfo['overview_path'].first
+      @route.end_point = routeInfo['overview_path'].last
       @route.hitchhiker_id = user.first()["_id"]
       
   
       respond_to do |format|
         if @route.save
-          format.html { redirect_to @route, notice: 'Route was successfully created.' }
-          format.json { render json: @route, status: :created, location: @route }
-        else
-          format.html { render action: "new" }
-          format.json { render json: @route.errors, status: :unprocessable_entity }
+          if  @route.schedule.create( _route_id: @route._id,
+                                   departure: params[:schedule][:departure], 
+                                   arrival: params[:schedule][:arrival], 
+                                   date: params[:schedule][:date] )
+            format.html { redirect_to @route, notice: 'Route was successfully created.' }
+            format.json { render json: @route, status: :created, location: @route }
+          else
+            format.html { render action: "new" }
+            format.json { render json: @route.errors, status: :unprocessable_entity }
+          end
         end
       end
     end
