@@ -15,7 +15,7 @@
   
 %p
   %b Driver:
-
+  = link_to @driver.name + @driver.lastname, "../hitchhikers/"+@route['hitchhiker_id']
 / .span7.pull-right.well.well-small
 /     %div{:id => "map_canvas", :style => "border: 1px solid black; position:absolute; height:400px;position:relative"}
 /     %input{:type=>"hidden", :id=>"map_points"}

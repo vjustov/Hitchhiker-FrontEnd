@@ -15,6 +15,7 @@ class RoutesController < ApplicationController
   # GET /routes/1.json
   def show
     @route = Route.find(params[:id])
+    @driver = Hitchhiker.find(@route.hitchhiker_id)
 
     respond_to do |format|
       format.html # show.html.erb
@@ -25,7 +26,7 @@ class RoutesController < ApplicationController
   def check_in
     debugger
     @route = Route.find(params[:id])
-    @Hitchhiker = Hitchhiker.find(params[:user_id])
+    @Hitchhiker = Hitchhiker.find(params[:user_id]).first()
 
     respond_to do |format|
       if @route.update_attributes(params[:route])
