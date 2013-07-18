@@ -29,10 +29,10 @@
     - @routes.each do |route|
       %tr
         %div{:class => "btn-group"}
-          = link_to 'Show', route.hitchhiker.entries.first,
+          / = link_to 'Show', route.hitchhiker.entries.first,
           {:class => 'btn-primary span1'}
         %td.span1
-          = route.hitchhiker.entries.first.username
+          / = route.hitchhiker.entries.first.username
         %td.span9
           is going from
           = route.from

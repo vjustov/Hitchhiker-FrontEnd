@@ -14,6 +14,7 @@ HitchhikerFrontend::Application.routes.draw do
   resources :routes do
     member do
       put 'check_in'
+      get 'check_in'
     end
   end
 
