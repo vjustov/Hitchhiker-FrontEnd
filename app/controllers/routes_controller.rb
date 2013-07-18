@@ -2,8 +2,8 @@ class RoutesController < ApplicationController
   # GET /routes
   # GET /routes.json
   def index
-    @routes = Route.all
-
+    #@routes = Route.all
+    @routes = Route.all.to_a.paginate({:page => params[:page], :per_page => 2})
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @routes }
@@ -14,6 +14,7 @@ class RoutesController < ApplicationController
   # GET /routes/1.json
   def show
     @route = Route.find(params[:id])
+    @user = User.where(usermane: 'User0').all
 
     respond_to do |format|
       format.html # show.html.erb
