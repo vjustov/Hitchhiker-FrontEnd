@@ -1,0 +1,3 @@
+= content_tag_for(:tr, @vehicle, :class => cycle('odd','even')) do
+  %td= h @vehicle.year
+  %td= link_to 'Remove', object_path(@vehicle), :method => :delete
