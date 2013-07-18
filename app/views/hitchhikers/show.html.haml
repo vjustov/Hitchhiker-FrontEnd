@@ -1,0 +1,21 @@
+%p#notice= notice
+
+%p
+  %b Username:
+  = @hitchhiker.username
+%p
+  %b Name:
+  = @hitchhiker.name
+%p
+  %b Lastname:
+  = @hitchhiker.lastname
+%p
+  %b Email:
+  = @hitchhiker.email
+%p
+  %b Hitchhiker:
+  = @hitchhiker.hitchhiker
+
+= link_to 'Edit', edit_hitchhiker_path(@hitchhiker)
+\|
+= link_to 'Back', hitchhikers_path

@@ -1,0 +1,45 @@
+%h2.span4 Going on right now
+%span.pull-right.red 
+  = link_to 'New Route', '/routes/new', {:class => 'action_btn btn'}
+.clearfix
+
+.navbar
+  .navbar-inner
+    %form.navbar-search.pull-left
+      %input.search-query.span4{:type=>'text', :placeholder=>'Search...'}
+
+    .btn-group.pull-left
+      %button.btn Going
+      %button.btn Looking
+
+    .pagination.pagination-right.pull-right
+      %ul
+        %li.disabled{:id=>'previous'}
+          %a{:href => '#'} «
+        - (1..10).each do |c|
+          %li
+            %a{:href => '#'}
+              = c
+        %li{:id=>'next'}
+          %a{:href=>'#'}»
+
+%table.table.table-bordered.table-hover
+  %tbody
+    / - unless @routes.empty?
+    - @routes.each do |route|
+      %tr
+        %div{:class => "btn-group"}
+          = link_to 'Show', route.hitchhiker.entries.first,
+          {:class => 'btn-primary span1'}
+        %td.span1
+          = route.hitchhiker.entries.first.username
+        %td.span9
+          is going from
+          = route.from
+          to
+          = route.to
+        %td.span1
+          = route.available_sits
+        %td.span1
+          = link_to 'Show', route,
+          {:class => 'action_btn btn'}
