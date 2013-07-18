@@ -9,7 +9,6 @@
     %th Hitchhiker
     %th
     %th
-    %th
 
   - @hitchhikers.each do |hitchhiker|
     %tr
@@ -19,7 +18,6 @@
       %td= hitchhiker.email
       %td= hitchhiker.hitchhiker
       %td= link_to 'Show', hitchhiker
-      %td= link_to 'Edit', edit_hitchhiker_path(hitchhiker)
       %td= link_to 'Destroy', hitchhiker, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
