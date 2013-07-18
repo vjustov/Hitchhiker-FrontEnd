@@ -30,10 +30,7 @@
       .field
         = a.label :arrival
         = a.text_field :arrival, :format=>"time", :readonly=>true
-      .field
-        = a.label :date
-        = a.text_field :date,:format=>"date", :readonly=>true
- 
+
   .clearfix 
   .span4.pull-left.well.well-small
     %h5 Vehicle        
@@ -53,17 +50,15 @@
     
 :javascript
   
-  $("input[format='time']").timepicker({
-      hourGrid: 4,
-      minuteGrid: 10,
-      timeFormat: 'hh:mm tt'
+  $("input[format='time']").datetimepicker({
+    timeFormat: "hh:mm tt"
   });
   
-   $("input[format='date']").datepicker({
-      hourGrid: 4,
-      minuteGrid: 10,
-      timeFormat: 'hh:mm tt'
-  });
+  //$("input[format='date']").datepicker({
+  //   hourGrid: 4,
+  //    minuteGrid: 10,
+  //    timeFormat: 'hh:mm tt'
+  // });
   
   
   $('#clear_button').click(function(){
