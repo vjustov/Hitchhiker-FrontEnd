@@ -1,39 +1,36 @@
-= form_tag new_route_path do
-  = text_field_tag :from
-  = text_field_tag :to
-  = text_field_tag :avaliable_sits
-  
-= form_for @route do |f|
+
+= form_tag do |f|
   - if @route.errors.any?
     #error_explanation
       %h2= "#{pluralize(@route.errors.count, "error")} prohibited this route from being saved:"
       %ul
         - @route.errors.full_messages.each do |msg|
           %li= msg
-          
+  
   .span7.pull-right.well.well-small
     %div{:id => "map_canvas", :style => "border: 1px solid black; position:absolute; height:400px;position:relative"}
     
     = hidden_field_tag("route_map_points")
-    %input{:type=>"button",:id=>"clear_button" , :value=>"Clear"} 
-         
+    %br/
+    %button{:type=>"button",:id=>"clear_button", :class=>"btn btn-danger" , :value=>"Clear"} 
+
   .span4.pull-left.well.well-small
     .field
-      = f.label :from 
-      = f.text_field :from, :class=>"input-xlarge" ,:readonly=>true
+      = label_tag :from 
+      = text_field_tag :from, :class=>"input-xlarge" ,:readonly=>true, :id => "route_from"
     .field
-      = f.label :to
-      = f.text_field :to, :class=>"input-xlarge" ,:width =>"100%", :readonly=>true
-  
+      = label_tag :to
+      = text_field_tag :to, :class=>"input-xlarge" ,:width =>"100%", :readonly=>true, :id => "route_to"
+
   .span4.pull-left.well.well-small
     %h5 Vehicle        
     .field
-      = f.label :vehicle
+      = label_tag :vehicle
       = render partial: "user_vehicles_listing"
              
     .field
-      = f.label :available_sits
-      = f.text_field :available_sits
+      = label_tag :available_sits
+      = text_field_tag :available_sits
         
          
   .span4.pull-left.well.well-small
@@ -51,7 +48,57 @@
   .clearfix 
   
   .actions
-    = f.submit 'Save', :class=> "btn btn-primary"
+    = submit_tag 'Save', :class=> "btn btn-primary"
+
+/ = form_for @route do |f|
+/   - if @route.errors.any?
+/     #error_explanation
+/       %h2= "#{pluralize(@route.errors.count, "error")} prohibited this route from being saved:"
+/       %ul
+/         - @route.errors.full_messages.each do |msg|
+/           %li= msg
+          
+/   .span7.pull-right.well.well-small
+/     %div{:id => "map_canvas", :style => "border: 1px solid black; position:absolute; height:400px;position:relative"}
+    
+/     = hidden_field_tag("route_map_points")
+/     %input{:type=>"button",:id=>"clear_button" , :value=>"Clear"} 
+         
+/   .span4.pull-left.well.well-small
+/     .field
+/       = f.label :from 
+/       = f.text_field :from, :class=>"input-xlarge" ,:readonly=>true
+/     .field
+/       = f.label :to
+/       = f.text_field :to, :class=>"input-xlarge" ,:width =>"100%", :readonly=>true
+  
+/   .span4.pull-left.well.well-small
+/     %h5 Vehicle        
+/     .field
+/       = f.label :vehicle
+/       = render partial: "user_vehicles_listing"
+             
+/     .field
+/       = f.label :available_sits
+/       = f.text_field :available_sits
+        
+         
+/   .span4.pull-left.well.well-small
+/     %h5 Schedule
+    
+/     = field_set_tag do
+/       .field
+/         = label_tag 
+/         = text_field_tag 'route_schedule_departure',@route.schedule.departure, format: "time", readonly:"true"
+/       .field
+/         = label_tag  'arrival'
+/         = text_field_tag 'route_schedule_arrival',@route.schedule.departure, format: "time", readonly:"true"
+
+  
+/   .clearfix 
+  
+/   .actions
+/     = f.submit 'Save', :class=> "btn btn-primary"
     
 :javascript
   
@@ -180,8 +227,8 @@
       if (status == google.maps.DirectionsStatus.OK) {
     var points_text = "", points_json= "", format = "raw";
      
-    document.getElementById("route_from").value = response.routes[0].legs[0].start_address 
-    document.getElementById("route_to").value = response.routes[0].legs[0].end_address
+    document.getElementById("from").value = response.routes[0].legs[0].start_address 
+    document.getElementById("to").value = response.routes[0].legs[0].end_address
     response.routes[0].bounds.getCenter.lng
   
  
