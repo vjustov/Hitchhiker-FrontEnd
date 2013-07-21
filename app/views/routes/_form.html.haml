@@ -1,3 +1,8 @@
+= form_tag new_route_path do
+  = text_field_tag :from
+  = text_field_tag :to
+  = text_field_tag :avaliable_sits
+  
 = form_for @route do |f|
   - if @route.errors.any?
     #error_explanation

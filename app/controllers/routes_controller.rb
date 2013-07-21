@@ -62,6 +62,8 @@ class RoutesController < ApplicationController
   # POST /routes.json
   def create
     if user_signed_in?
+      current_hitchkier
+      
       user = Hitchhiker.where(:email => current_user.email)
       @route = Route.new(params[:route])
       routeInfo = JSON.parse(params[:route_map_points].gsub("jb","latitude").gsub("kb","longitude"))
