@@ -10,17 +10,17 @@ class RegistrationsController < Devise::RegistrationsController
     debugger
     build_resource(sign_up_params)
     hitchhiker_data = {username: sign_up_params['username'], email: sign_up_params['email'] }
-    hitchhiker = Hitchhiker.new Hitchhiker_data
+    hitchhiker = Hitchhiker.new hitchhiker_data
     
-    if resource.save && hitchhiker.save
+    if resource.save && hitchhiker.save # Todo: Check and rollback in the case that one of the resources/hitchhikers does not save, but the other one does.
       if resource.active_for_authentication?
         set_flash_message :notice, :signed_up if is_navigational_format?
         sign_up(resource_name, resource)
-        respond_with resource, :location => after_sign_up_path_for(resource)
+        respond_with resource, :location => after_sign_up_path_for(hitchhiker)
       else
         set_flash_message :notice, :"signed_up_but_#{resource.inactive_message}" if is_navigational_format?
         expire_session_data_after_sign_in!
-        respond_with resource, :location => after_inactive_sign_up_path_for(resource)
+        respond_with resource, :location => after_inactive_sign_up_path_for(hitchhiker)
       end
     else
       clean_up_passwords resource
@@ -29,6 +29,7 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def after_sign_up_path_for resource
-    routes_path
+    debugger
+    edit_hitchhiker_path(resource._id)
   end
 end

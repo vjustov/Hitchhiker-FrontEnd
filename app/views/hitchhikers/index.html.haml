@@ -17,7 +17,7 @@
       %td= hitchhiker.lastname
       %td= hitchhiker.email
       %td= hitchhiker.hitchhiker
-      %td= link_to 'Show', hitchhiker
+      %td= link_to 'Show', hitchhiker_path(hitchhiker._id)
       %td= link_to 'Destroy', hitchhiker, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
