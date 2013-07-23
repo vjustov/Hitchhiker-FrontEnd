@@ -1,5 +1,5 @@
 module RoutesHelper
-
+  
   def vehicles_by_user
     @vehicles = []
     hitchhiker = Hitchhiker.find_by('email', current_user.email)

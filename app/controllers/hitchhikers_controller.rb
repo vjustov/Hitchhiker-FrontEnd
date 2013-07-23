@@ -1,5 +1,6 @@
 require 'rest_client'
 class HitchhikersController < ApplicationController
+  before_filter :authenticate_user!
   # GET /hitchhikers
   # GET /hitchhikers.json
   def index

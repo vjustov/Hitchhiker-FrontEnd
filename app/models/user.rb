@@ -3,6 +3,8 @@ class User
   rolify
   include Mongoid::Timestamps
 
+  attr_accessible :name, :username, :email, :password, :password_confirmation, :remember_me, :created_at, :updated_at
+
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
@@ -10,12 +12,17 @@ class User
          :recoverable, :rememberable, :trackable, :validatable
 
   ## Database authenticatable
+  field :name, :type => String
+  field :username, type: String
+  field :fb_id, :type => String
   field :email,              :type => String, :default => ""
   field :encrypted_password, :type => String, :default => ""
 
+  # validates_presence_of :name
   validates_presence_of :email
+  validates_presence_of :username
   validates_presence_of :encrypted_password
-  
+
   ## Recoverable
   field :reset_password_token,   :type => String
   field :reset_password_sent_at, :type => Time
@@ -45,8 +52,5 @@ class User
   # field :authentication_token, :type => String
   # run 'rake db:mongoid:create_indexes' to create indexes
   index({ email: 1 }, { unique: true, background: true })
-  field :name, :type => String
-  validates_presence_of :name
-  attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :created_at, :updated_at
-  field :fb_id, :type => String
+  index({ username: 1 }, { unique: true, background: true })
 end

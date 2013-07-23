@@ -1,4 +1,6 @@
 class RoutesController < ApplicationController
+  before_filter :authenticate_user!
+  
   # GET /routes
   # GET /routes.json
   def index
