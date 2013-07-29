@@ -1,0 +1,5 @@
+%select{:id=>"route_vehicle_id", :name=>"route[vehicle_id]"}
+  - vehicles = vehicles_by_user
+  - unless vehicles.empty?
+    - vehicles.each do |vehicle|
+      %option{selected: params[:vehicle_id] == "#{vehicle.id}", value:"#{vehicle.id}" }#{vehicle.brand} #{vehicle.model} #{vehicle.year}

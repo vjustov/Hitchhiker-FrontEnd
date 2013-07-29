@@ -1,0 +1,23 @@
+= form_for("user", :url => new_user_registration_path) do |f|
+  .span2.image.pull-right.well
+    = image_tag @facebook_data['image_path'][0..-7] + 'large'
+  .span4.well
+    = f.label :name
+    = f.text_field :name, :value => @facebook_data['name']
+    = f.label :email
+    = f.text_field :email, :value => @facebook_data['email']
+    = f.label :username
+    = f.text_field :username, :value => @facebook_data['username']
+    = f.label :password
+    = f.password_field :password
+    = f.label :comfirm_password
+    = f.password_field :comfirm_password 
+  /= f.check_box :remember_me
+  /= f.label :remember_me
+  .span4.pull-left.well.well-small
+    %h5 Vehicle        
+    .field
+      = label_tag :vehicle
+      / = render partial: "user_vehicles_listing"
+  = f.submit 'Sign in'
+  = link_to "Forgot your password?", new_password_path('user')
