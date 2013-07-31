@@ -1,5 +1,5 @@
 %select{:id=>"route_vehicle_id", :name=>"route[vehicle_id]"}
-  - vehicles = vehicles_by_user
-  - unless vehicles.empty?
-    - vehicles.each do |vehicle|
-      %option{selected: params[:vehicle_id] == "#{vehicle.id}", value:"#{vehicle.id}" }#{vehicle.brand} #{vehicle.model} #{vehicle.year}
+  - brands = Vehicles.all.pluck :brand #Band.all.pluck(:name)
+  - unless brands.empty?
+    - brands.each do |brand|
+      %option{selected: params[:vehicle_id] == "#{vehicle.id}", value:"#{vehicle.id}" }
