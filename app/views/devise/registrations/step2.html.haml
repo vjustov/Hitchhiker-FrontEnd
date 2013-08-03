@@ -1,4 +1,4 @@
-= form_for("user", :url => new_user_registration_path) do |f|
+= form_for("user", :url => new_user_registration_step2_path) do |f|
   .span2.image.pull-right.well
     = image_tag @facebook_data['image_path'][0..-7] + 'large'
   .span4.well
@@ -18,6 +18,6 @@
     %h5 Vehicle        
     .field
       = label_tag :vehicle
-      = render partial: "user_vehicles_listing"
+      = render partial: "devise/registrations/user_vehicles_listing"
   = f.submit 'Sign in'
   = link_to "Forgot your password?", new_password_path('user')
