@@ -3,7 +3,7 @@ require 'debugger'
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def all
     # request.to_json    
-#     debugger
+    debugger
     # raise request.env['omniauth.auth'].to_json
     user_fb_data = request.env['omniauth.auth']
 
@@ -12,6 +12,8 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     @form_data['email'] = user_fb_data['info']['email']
     @form_data['username'] = user_fb_data['info']['nickname']
     @form_data['image_path'] = user_fb_data['info']['image']
+    @form_data['fb_id'] = user_fb_data[:uid]
+    @form_data['fb_token'] = user_fb_data.credentials.token
 
     session["devise.facebook_data"] = @form_data
     # debugger

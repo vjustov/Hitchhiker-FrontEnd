@@ -9,9 +9,16 @@ class RegistrationsController < Devise::RegistrationsController
   def create
     debugger
     build_resource(sign_up_params)
+
+    # resource.fb_id = sign_up_params['fb_id']
+    # resource.fb_token = sign_up_params['fb_token']
+
     hitchhiker_data = {username: sign_up_params['username'], email: sign_up_params['email'] }
     hitchhiker = Hitchhiker.new hitchhiker_data
     
+
+
+
     if resource.save && hitchhiker.save # Todo: Check and rollback in the case that one of the resources/hitchhikers does not save, but the other one does.
       if resource.active_for_authentication?
         set_flash_message :notice, :signed_up if is_navigational_format?
@@ -29,7 +36,8 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def after_sign_up_path_for resource
-    debugger
+    # debugger
     edit_hitchhiker_path(resource._id)
   end
+
 end

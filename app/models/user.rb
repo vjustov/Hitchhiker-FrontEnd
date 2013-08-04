@@ -1,9 +1,9 @@
 class User
   include Mongoid::Document
-  rolify
   include Mongoid::Timestamps
+  rolify
 
-  attr_accessible :name, :username, :email, :password, :password_confirmation, :remember_me, :created_at, :updated_at
+  attr_accessible :name, :username, :email, :password, :password_confirmation, :remember_me, :created_at, :updated_at, :fb_id, :fb_token
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -15,6 +15,7 @@ class User
   field :name, :type => String
   field :username, type: String
   field :fb_id, :type => String
+  field :fb_token, :type => String
   field :email,              :type => String, :default => ""
   field :encrypted_password, :type => String, :default => ""
 
@@ -53,4 +54,8 @@ class User
   # run 'rake db:mongoid:create_indexes' to create indexes
   index({ email: 1 }, { unique: true, background: true })
   index({ username: 1 }, { unique: true, background: true })
+
+  def facebook
+    @facebook ||= Koala::Facebook::API.New (fb_token) 
+  end
 end
