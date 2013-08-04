@@ -15,9 +15,16 @@ class RegistrationsController < Devise::RegistrationsController
 
     hitchhiker_data = {username: sign_up_params['username'], email: sign_up_params['email'] }
     hitchhiker = Hitchhiker.new hitchhiker_data
-    
 
-
+    resource.facebook.get_connections(resource.fb_id, 'friends').each do |friend|
+      if User.find_by(fb_id: friend['id'])
+        friend_hash = {}
+        friend_hash['id_1'] = resource.fb_id
+        friend_hash['id_2'] = friend['id']
+        
+        Friend.new friend_hash
+      end
+    end
 
     if resource.save && hitchhiker.save # Todo: Check and rollback in the case that one of the resources/hitchhikers does not save, but the other one does.
       if resource.active_for_authentication?

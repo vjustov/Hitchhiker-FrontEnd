@@ -55,7 +55,9 @@ class User
   index({ email: 1 }, { unique: true, background: true })
   index({ username: 1 }, { unique: true, background: true })
 
+  embeds_many :friends
+
   def facebook
-    @facebook ||= Koala::Facebook::API.New (fb_token) 
+    @facebook ||= Koala::Facebook::API.new fb_token
   end
 end
